@@ -1,0 +1,39 @@
+# crontab crontabRPi.scr
+
+# string             meaning
+# ------           -----------
+# @reboot      Run once, at startup.
+# @yearly       Run once a year, "0 0 1 1 *".
+# @annually    (same as @yearly)
+# @monthly    Run once a month, "0 0 1 * *".
+# @weekly     Run once a week, "0 0 * * 0".
+# @daily        Run once a day, "0 0 * * *".
+# @midnight   (same as @daily)
+# @hourly      Run once an hour, "0 * * * *".
+
+# The following line runs at boot time.  It firsts sleeps then touches the temp file.
+#@reboot  sleep 60s;touch /home/pi/touch.tmp
+# Having some program start running at boot time is useful.
+# Examples include starting a pitunnel, emailing data to the users like the current IP address.
+
+# minute (0-59), 
+# |     hour (0-23), 
+# |     |       day of the month (1-31), 
+# |     |       |       month of the year (1-12), 
+# |     |       |       |       day of the week (0-7 with 0=7=Sunday). 
+# |     |       |       |       |           command(s)
+# |     |       |       |       |           |
+# |     |       |       |     Day of        |
+#Mins  Hours  Days   Months  the week    command(s)
+#0,30    *      *       *       *      /opt/vc/bin/vcgencmd measure_temp >> /home/pi/outCPUtemp.dat
+## Every day, every hour, at the top and bottom of the hour run the command.
+
+#15,45    *      *       *       *      echo -n $(date), >> /home/pi/date,throttled.csv;/opt/vc/bin/vcgencmd get_throttled >> /home/pi/date,throttled.csv
+
+#0,30    *      *       *       1-6      /opt/vc/bin/vcgencmd measure_temp >> /home/pi/outCPUtemp.dat
+#        Never on Sundays, no 0 or 7
+
+#0,30    7-22   *       *       *      /opt/vc/bin/vcgencmd measure_temp >> /home/pi/outCPUtemp.dat
+#  Only runs between 7 am and 10 pm. Does not run while I am sleeping.
+
+
